@@ -77,9 +77,10 @@ const Row = <DataType, DetailType>({
       <tr className="border border-neutral200">
         {row.getVisibleCells().map((cell, index) => {
           const isFirstCell = index === 0;
+          const className = isFirstCell ? (isDetail ? "pl-8" : "pl-4") : "";
           return (
             <td key={cell.id} className="border border-neutral200">
-              <div className={`${isFirstCell ? `pl-${isDetail ? 8 : 4}` : ""}`}>
+              <div className={className}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </div>
             </td>
