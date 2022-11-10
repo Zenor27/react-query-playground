@@ -3,8 +3,8 @@ import { Table } from "./components/Table";
 import {
   makeColumns,
   makeDetailsColumns,
-} from "./components/Table/makeColumns";
-import { makeData, makeTotals } from "./components/Table/makeData";
+} from "./makeColumns";
+import { makeData, makeTotals } from "./makeData";
 import { Data, Detail } from "./components/Table/types";
 
 function App() {

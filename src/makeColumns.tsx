@@ -1,7 +1,6 @@
 import { createColumnHelper } from "@tanstack/react-table";
-import { Data, Total, Detail } from "./types";
-
-export const SKIP_HEADER = "SKIP_HEADER";
+import { SKIP_HEADER } from "./components/Table/Header";
+import { Data, Total, Detail } from "./components/Table/types";
 
 export const makeColumns = ({
   data,

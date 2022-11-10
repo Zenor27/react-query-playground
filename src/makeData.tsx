@@ -2,7 +2,7 @@
 Nothing to see here. Just some data generation.
 */
 
-import { Data, Total } from "./types";
+import { Data, Total } from "./components/Table/types";
 
 export const makeData = (): Data[] => {
   return [

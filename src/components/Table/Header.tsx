@@ -1,5 +1,6 @@
 import { Table, Header as _RTHeader, flexRender } from "@tanstack/react-table";
-import { SKIP_HEADER } from "./makeColumns";
+
+export const SKIP_HEADER = "SKIP_HEADER";
 
 type HeaderProps<Data> = {
   table: Table<Data>;
