@@ -10,6 +10,7 @@ import { Header } from "./Header";
 export type TableProps<DataType, DetailType> = {
   data: DataType[];
   columns: ColumnDef<DataType, unknown>[];
+  columnVisibility?: Record<string, boolean>;
   detailedDataFactory: ({ data }: { data: DataType }) => DetailType[];
   detailedColumnsFactory: ({
     data,
@@ -21,12 +22,16 @@ export type TableProps<DataType, DetailType> = {
 export const Table = <DataType, DetailType>({
   data,
   columns,
+  columnVisibility = {},
   detailedDataFactory,
   detailedColumnsFactory,
 }: TableProps<DataType, DetailType>) => {
   const table = useReactTable({
     data,
     columns,
+    state: {
+      columnVisibility,
+    },
     getCoreRowModel: getCoreRowModel(),
   });
 
@@ -35,6 +40,7 @@ export const Table = <DataType, DetailType>({
       <Header<DataType> table={table} />
       <Body<DataType, DetailType>
         table={table}
+        columnVisibility={columnVisibility}
         detailedDataFactory={detailedDataFactory}
         detailedColumnsFactory={detailedColumnsFactory}
       />

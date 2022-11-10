@@ -16,10 +16,10 @@ type BodyProps<DataType, DetailType> = {
   }: {
     data: DataType;
   }) => ColumnDef<DetailType, unknown>[];
+  columnVisibility?: Record<string, boolean>;
 };
 
 type RowsProps<DataType, DetailType> = {
-  isDetail?: boolean;
 } & BodyProps<DataType, DetailType>;
 
 type RowProps<DataType, DetailType> = {
@@ -33,9 +33,9 @@ type SubRowProps<DataType, DetailType> = { data: DataType } & Omit<
 
 const Rows = <DataType, DetailType>({
   table,
-  isDetail = false,
   detailedDataFactory = (_: any) => [],
   detailedColumnsFactory = (_: any) => [],
+  columnVisibility = {},
 }: RowsProps<DataType, DetailType>) => {
   return (
     <>
@@ -43,9 +43,9 @@ const Rows = <DataType, DetailType>({
         <Row<DataType, DetailType>
           key={row.id}
           row={row}
-          isDetail={isDetail}
           detailedDataFactory={detailedDataFactory}
           detailedColumnsFactory={detailedColumnsFactory}
+          columnVisibility={columnVisibility}
         />
       ))}
     </>
@@ -56,33 +56,33 @@ const SubRow = <DataType, DetailType>({
   data,
   detailedDataFactory = (_: any) => [],
   detailedColumnsFactory = (_: any) => [],
+  columnVisibility = {},
 }: SubRowProps<DataType, DetailType>) => {
   const table = useReactTable({
     data: detailedDataFactory({ data }),
     columns: detailedColumnsFactory({ data }),
+    state: {
+      columnVisibility,
+    },
     getCoreRowModel: getCoreRowModel(),
   });
 
-  return <Rows table={table} isDetail={true} />;
+  return <Rows table={table}/>;
 };
 
 const Row = <DataType, DetailType>({
   row,
   detailedDataFactory = (_: any) => [],
   detailedColumnsFactory = (_: any) => [],
-  isDetail = false,
+  columnVisibility = {},
 }: RowProps<DataType, DetailType>) => {
   return (
     <React.Fragment key={row.id}>
       <tr className="border border-neutral200">
         {row.getVisibleCells().map((cell, index) => {
-          const isFirstCell = index === 0;
-          const className = isFirstCell ? (isDetail ? "pl-8" : "pl-4") : "";
           return (
             <td key={cell.id} className="border border-neutral200">
-              <div className={className}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </div>
             </td>
           );
         })}
@@ -92,6 +92,7 @@ const Row = <DataType, DetailType>({
           data={row.original}
           detailedDataFactory={detailedDataFactory}
           detailedColumnsFactory={detailedColumnsFactory}
+          columnVisibility={columnVisibility}
         />
       ) : null}
     </React.Fragment>
@@ -102,11 +103,13 @@ export const Body = <DataType, DetailType>({
   table,
   detailedDataFactory = (_: any) => [],
   detailedColumnsFactory = (_: any) => [],
+  columnVisibility = {},
 }: BodyProps<DataType, DetailType>) => {
   return (
     <tbody className="border border-neutral200">
       <Rows<DataType, DetailType>
         table={table}
+        columnVisibility={columnVisibility}
         detailedDataFactory={detailedDataFactory}
         detailedColumnsFactory={detailedColumnsFactory}
       />

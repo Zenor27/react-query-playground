@@ -16,20 +16,21 @@ export const makeColumns = ({
 
   return [
     columnHelper.group({
-      id: "project",
+      id: "mainColumn",
       header: undefined,
       columns: [
         columnHelper.accessor("project", {
+          id: "mainColumn",
           header: SKIP_HEADER,
           cell: (info) => {
             const isExpended = info.row.getIsExpanded();
             return (
-              <>
+              <div className="pl-4">
                 <button onClick={() => info.row.toggleExpanded(!isExpended)}>
                   {isExpended ? "🥖" : "🍞"}
                 </button>
                 {info.getValue()}
-              </>
+              </div>
             );
           },
         }),
@@ -48,6 +49,7 @@ export const makeColumns = ({
         },
         columns: [
           columnHelper.group({
+            id: `prevreal${name}`,
             header: SKIP_HEADER,
             columns: [
               columnHelper.accessor(
@@ -112,12 +114,13 @@ export const makeDetailsColumns = ({ details }: { details: Detail[] }) => {
 
   return [
     columnHelper.group({
-      id: "userName",
+      id: "mainColumn",
       header: undefined,
       columns: [
         columnHelper.accessor("userName", {
+          id: "mainColumn",
           cell: (info) => {
-            return <>🧏‍♂️ {info.getValue()}</>;
+            return <div className="pl-8">🧏‍♂️ {info.getValue()}</div>;
           },
         }),
       ],
